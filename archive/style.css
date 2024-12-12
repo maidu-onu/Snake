@@ -1,0 +1,50 @@
+body {
+  margin: 0; /* Remove default margin */
+  width: 100vw; /* Set width to full viewport width */
+  height: 100vh; /* Set height to full viewport height */
+
+  display: flex; /* Enable flexbox */
+  flex-direction: column;
+  justify-content: center; /* Center items horizontally */
+  align-items: center;
+}
+
+#main {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  height: 500px;
+  /* border: 1px solid black; */
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 500px;
+  height: 100px;
+}
+
+.square {
+  width: 98px;
+  height: 98px;
+  border: 1px solid rgb(255, 255, 255);
+  background-color: #ffc343;
+}
+.snake {
+  background-color: #f84a1f;
+}
+.food {
+  background-color: #1ff82a;
+}
+.hidden {
+  display: none;
+}
+.message {
+  font-size: 40px;
+  font-family: Roboto;
+  font-weight: bold;
+  color: oragne;
+}
+.message_container {
+  height: 50px;
+}
