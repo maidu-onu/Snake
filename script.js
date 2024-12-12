@@ -22,7 +22,7 @@ let y = 1;
 const moveInterval = 800;
 const gameWidth = 5;
 const gameHeight = 5;
-let snakeLength = 5;
+let snakeLength = 1;
 const snakeBody = [[x, y]];
 const foodArray = [];
 
