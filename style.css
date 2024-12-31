@@ -12,16 +12,16 @@ body {
 #main {
   display: flex;
   flex-direction: column;
-  width: 500px;
-  height: 500px;
+  width: auto;
+  height: auto;
   /* border: 1px solid black; */
 }
 
 .row {
   display: flex;
   flex-direction: row;
-  width: 500px;
-  height: 100px;
+  width: auto;
+  height: auto;
 }
 
 .square {
@@ -44,7 +44,7 @@ body {
   font-size: 40px;
   font-family: Roboto;
   font-weight: bold;
-  color: oragne;
+  color: orange;
 }
 .message_container {
   height: 50px;

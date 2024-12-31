@@ -11,19 +11,21 @@ const makeFood = function (x, y) {
   document
     .querySelector(`.square[data-x="${x}"][data-y="${y}"]`)
     .classList.toggle("food");
+  foodArray.push([x, y]);
 };
 const win = function () {
   document.querySelector(`.message`).classList.toggle("hidden");
 };
 
-// Starting conf
+// Starting config //
 let x = 1;
 let y = 1;
 const moveInterval = 800;
-const gameWidth = 5;
-const gameHeight = 5;
+let gameSize = 5;
+let gameWidth = 5;
+let gameHeight = 5;
 let snakeLength = 1;
-const snakeBody = [[x, y]];
+let snakeBody = [[x, y]];
 const foodArray = [];
 
 let moveDirection = 0;
@@ -105,6 +107,9 @@ document.addEventListener("keydown", (e) => {
     console.log("Control");
     snakeLength--;
   }
+  if (e.key === "Enter") {
+    resizeGame(gameSize + 1);
+  }
   //console.log(`Key: ${e.key}, KeyCode: ${e.keyCode}, Code: ${e.code}`);
 });
 
@@ -128,7 +133,6 @@ const food = function () {
     if (
       snakeBody.some((pair) => pair[0] === xFood && pair[1] === yFood) === false
     ) {
-      foodArray.push([xFood, yFood]);
       makeFood(xFood, yFood);
       foodDone = 1;
     }
@@ -337,12 +341,36 @@ const move = function () {
   }, moveInterval);
 };
 
+/// GAME AREA CHANGE ///
+const resizeGame = function (size) {
+  gameSize = size;
+  gameWidth = size;
+  gameHeight = size;
+  let markup = `<div class="row">`;
+  const main = document.getElementById("main");
+
+  for (let i = 0; i < gameSize; i++) {
+    markup += `<div class="column">`;
+
+    for (let j = 0; j < gameSize; j++) {
+      markup += `<div class="square" data-x="${i + 1}" data-y="${
+        j + 1
+      }"></div>`;
+    }
+    markup += `</div>`;
+  }
+  markup += `</div>`;
+  main.innerHTML = markup;
+
+  makeFood(foodArray[0][0], foodArray[0][1]);
+};
+
 ////////////////////
 //MOVEMENT EXECUTION//
 ////////////////////
 move();
 food();
-
+resizeGame(5);
 ////////Clickable boxes/////
 box.addEventListener("click", function (e) {
   e.target.classList.toggle("snake");
