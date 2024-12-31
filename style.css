@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 body {
   margin: 0; /* Remove default margin */
   width: 100vw; /* Set width to full viewport width */
@@ -44,7 +45,7 @@ body {
   font-size: 40px;
   font-family: Roboto;
   font-weight: bold;
-  color: rgb(0, 255, 255);
+  color: orange;
 }
 .message_container {
   height: 50px;

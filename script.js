@@ -24,7 +24,7 @@ const moveInterval = 800;
 let gameSize = 5;
 let gameWidth = 5;
 let gameHeight = 5;
-let snakeLength = 1;
+let snakeLength = 3;
 let snakeBody = [[x, y]];
 const foodArray = [];
 
@@ -360,7 +360,30 @@ const resizeGame = function (size) {
     markup += `</div>`;
   }
   markup += `</div>`;
+
+  // save snake classes;
+  let snakeClasses = snakeBody.map((el) => {
+    let snakeObject = {
+      x: el[0],
+      y: el[1],
+      classes: Array.from(
+        document.querySelector(`.square[data-x="${el[0]}"][data-y="${el[1]}"]`)
+          .classList
+      ),
+    };
+    return snakeObject;
+  });
+  console.log(snakeClasses);
   main.innerHTML = markup;
+
+  snakeClasses.forEach((el) => {
+    let a = document.querySelector(
+      `.square[data-x="${el.x}"][data-y="${el.y}"]`
+    );
+    //a.classList.remove(...a.classList);
+    //a.classList.add(el.classes);
+    console.log(el.classes);
+  });
 
   makeFood(foodArray[0][0], foodArray[0][1]);
 };
@@ -370,7 +393,7 @@ const resizeGame = function (size) {
 ////////////////////
 move();
 food();
-resizeGame(5);
+//resizeGame(5);
 ////////Clickable boxes/////
 box.addEventListener("click", function (e) {
   e.target.classList.toggle("snake");
