@@ -20,7 +20,7 @@ const win = function () {
 // Starting config //
 let x = 1;
 let y = 1;
-const moveInterval = 800;
+const moveInterval = 600;
 let gameSize = 5;
 let gameWidth = 5;
 let gameHeight = 5;
@@ -380,8 +380,8 @@ const resizeGame = function (size) {
     let a = document.querySelector(
       `.square[data-x="${el.x}"][data-y="${el.y}"]`
     );
-    //a.classList.remove(...a.classList);
-    //a.classList.add(el.classes);
+    a.classList.remove(...a.classList);
+    a.classList.add(...el.classes);
     console.log(el.classes);
   });
 
