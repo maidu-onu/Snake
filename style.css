@@ -44,7 +44,7 @@ body {
   font-size: 40px;
   font-family: Roboto;
   font-weight: bold;
-  color: orange;
+  color: rgb(0, 255, 255);
 }
 .message_container {
   height: 50px;
