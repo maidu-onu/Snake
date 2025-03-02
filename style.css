@@ -28,8 +28,13 @@ body {
 .square {
   width: 98px;
   height: 98px;
-  border: 1px solid rgb(255, 255, 255);
+  outline: 1px solid rgb(255, 255, 255, 0.2);
+  outline-offset: -1px;
   background-color: #ffc343;
+  pointer-events: none;
+  inset: 0;
+  transform: translateZ(0);
+  image-rendering: pixelated;
 }
 
 .food {

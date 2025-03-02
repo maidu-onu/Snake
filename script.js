@@ -1,6 +1,6 @@
 "use strict";
 
-const box = document.querySelector("#main");
+const box = document.querySelectorAll(".square");
 
 const active = function (x, y) {
   document
@@ -17,20 +17,41 @@ const win = function () {
   document.querySelector(`.message`).classList.toggle("hidden");
 };
 
+const randomColor = function () {
+  return `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(
+    Math.random() * 256
+  )}, ${Math.floor(Math.random() * 256)})`;
+};
 // Starting config //
 let x = 1;
 let y = 1;
-const moveInterval = 600;
+const moveInterval = 60;
 let gameSize = 5;
 let gameWidth = 5;
 let gameHeight = 5;
 let snakeLength = 3;
 let snakeBody = [[x, y]];
 const foodArray = [];
+const gameSizeMax = 600;
+let winLimit;
 
 let moveDirection = 0;
 let lastMoveDirection = 0;
 let bodyBlock = 0;
+
+const winLimitRefresh = function () {
+  winLimit = gameWidth * gameHeight - 2 * gameWidth;
+};
+
+const cssRuleSelector = function (selector, property, newValue) {
+  for (const sheet of document.styleSheets) {
+    for (const rule of sheet.cssRules) {
+      if (rule.selectorText === selector) {
+        rule.style[property] = newValue;
+      }
+    }
+  }
+};
 
 const inGameBounds = function () {
   if (y <= gameHeight && x <= gameWidth && y > 0 && x > 0) {
@@ -123,12 +144,12 @@ document.addEventListener("keydown", (e) => {
 
 //////FOOD FUNCTION////////
 const food = function () {
-  let xFood = Math.floor(Math.random() * 5 + 1);
-  let yFood = Math.floor(Math.random() * 5 + 1);
+  let xFood = Math.floor(Math.random() * gameWidth + 1);
+  let yFood = Math.floor(Math.random() * gameHeight + 1);
   let foodDone = 0;
   while (foodDone === 0) {
-    xFood = Math.floor(Math.random() * 5 + 1);
-    yFood = Math.floor(Math.random() * 5 + 1);
+    xFood = Math.floor(Math.random() * gameWidth + 1);
+    yFood = Math.floor(Math.random() * gameHeight + 1);
 
     if (
       snakeBody.some((pair) => pair[0] === xFood && pair[1] === yFood) === false
@@ -214,7 +235,7 @@ const move = function () {
         food();
         snakeLength++;
       }
-      if (snakeLength > 23) {
+      if (snakeLength > winLimit) {
         win();
         clearInterval(mover);
       }
@@ -343,6 +364,8 @@ const move = function () {
 
 /// GAME AREA CHANGE ///
 const resizeGame = function (size) {
+  console.log(gameHeight);
+  winLimitRefresh();
   gameSize = size;
   gameWidth = size;
   gameHeight = size;
@@ -361,6 +384,24 @@ const resizeGame = function (size) {
   }
   markup += `</div>`;
 
+  // smaller squares
+  if (gameSize > 5) {
+    cssRuleSelector(".square", "backgroundColor", randomColor());
+  }
+  if (gameSize > 7) {
+    cssRuleSelector(
+      ".square",
+      "width",
+      `${Math.floor(gameSizeMax / gameSize)}px`
+    );
+  }
+  if (gameSize > 7) {
+    cssRuleSelector(
+      ".square",
+      "height",
+      `${Math.floor(gameSizeMax / gameSize)}px`
+    );
+  }
   // save snake classes;
   let snakeClasses = snakeBody.map((el) => {
     let snakeObject = {
@@ -373,7 +414,6 @@ const resizeGame = function (size) {
     };
     return snakeObject;
   });
-  console.log(snakeClasses);
   main.innerHTML = markup;
 
   snakeClasses.forEach((el) => {
@@ -382,7 +422,6 @@ const resizeGame = function (size) {
     );
     a.classList.remove(...a.classList);
     a.classList.add(...el.classes);
-    console.log(el.classes);
   });
 
   makeFood(foodArray[0][0], foodArray[0][1]);
@@ -391,10 +430,15 @@ const resizeGame = function (size) {
 ////////////////////
 //MOVEMENT EXECUTION//
 ////////////////////
+winLimitRefresh();
 move();
 food();
 //resizeGame(5);
 ////////Clickable boxes/////
-box.addEventListener("click", function (e) {
-  e.target.classList.toggle("snake");
+
+box.forEach((div) => {
+  div.addEventListener("click", function (e) {
+    e.stopPropagation(); // Prevents event from bubbling up
+    e.target.classList.toggle("food");
+  });
 });
